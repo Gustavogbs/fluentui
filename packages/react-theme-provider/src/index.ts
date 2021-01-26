@@ -13,10 +13,8 @@ export * from './types';
 export * from './getStyleFromPropsAndOptions';
 export * from './tokensToStyleObject';
 export * from './useInlineTokens';
-export * from './makeVariantClasses';
-export * from './makeStyles';
-export * from './makeClasses';
-export { IStyle, IRawStyle, IRawFontStyle, IStyleFunctionOrObject } from '@fluentui/merge-styles';
+
+export { makeStyles } from './makeStyles';
 
 export * from './styleRenderers/mergeStylesRenderer';
 export * from './styleRenderers/types';
