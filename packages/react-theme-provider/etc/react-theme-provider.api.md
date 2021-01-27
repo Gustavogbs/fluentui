@@ -9,6 +9,7 @@ import { ICustomizerContext } from '@fluentui/utilities';
 import { IFontFace } from '@fluentui/merge-styles';
 import { IKeyframes } from '@fluentui/merge-styles';
 import { MakeStylesDefinition } from '@fluentui/make-styles';
+import { MakeStylesRenderer } from '@fluentui/make-styles';
 import { PartialTheme } from '@fluentui/theme';
 import * as React from 'react';
 import { Theme } from '@fluentui/theme';
@@ -28,7 +29,7 @@ export const getStyleFromPropsAndOptions: <TProps extends StyleProps<import("@fl
 export type KeyFrames = IKeyframes;
 
 // @public (undocumented)
-export function makeStyles<Selectors>(definitions: MakeStylesDefinition<Selectors, Tokens>[], unstable_cssPriority?: number): (selectors: Selectors) => string;
+export function makeStyles<Selectors>(definitions: MakeStylesDefinition<Selectors, Tokens>[]): (selectors: Selectors) => string;
 
 // @public (undocumented)
 export const MergeStylesProvider: ({ children }: {
@@ -96,6 +97,7 @@ export type ThemeProviderState = Omit<ThemeProviderProps, 'theme' | 'ref'> & {
     theme: Theme;
     ref: React.RefObject<HTMLElement>;
     customizerContext: ICustomizerContext;
+    makeStylesRenderer: MakeStylesRenderer;
 };
 
 // @public (undocumented)

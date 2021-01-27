@@ -1,4 +1,5 @@
-import { makeStyles, ThemeProvider } from '@fluentui/react-theme-provider';
+import { ax, makeStyles } from '@fluentui/react-make-styles';
+import { ThemeProvider } from '@fluentui/react-theme-provider';
 import { WindowProvider } from '@fluentui/react-window-provider';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -24,10 +25,22 @@ const useBasicStyles = makeStyles<{ primary?: boolean }>([
   ],
 ]);
 
-export const Container: React.FC<{ primary?: boolean }> = props => {
-  const className = useBasicStyles({ primary: props.primary });
+const useOverrideStyles = makeStyles<{}>([[null, () => ({ color: 'red', borderColor: 'red' })]]);
 
-  return <div className={className}>Hello world!</div>;
+const Container: React.FC<{ className?: string; primary?: boolean }> = props => {
+  const className = ax(useBasicStyles({ primary: props.primary }), props.className);
+
+  return <div className={className}>{props.children}</div>;
+};
+
+const ContainerWithOverrides: React.FC = props => {
+  const className = useOverrideStyles({});
+
+  return (
+    <Container className={className} primary>
+      {props.children}
+    </Container>
+  );
 };
 
 const PortalFrame: React.FunctionComponent<{
@@ -53,8 +66,14 @@ const PortalFrame: React.FunctionComponent<{
 
 export const Basic = () => (
   <ThemeProvider>
-    <Container />
-    <Container primary />
+    <Container>Hello world!</Container>
+    <Container primary>Hello world!</Container>
+  </ThemeProvider>
+);
+
+export const Overrides = () => (
+  <ThemeProvider>
+    <ContainerWithOverrides>Hello world!</ContainerWithOverrides>
   </ThemeProvider>
 );
 
@@ -63,8 +82,8 @@ export const Frame = () => (
     {externalDocument => (
       <WindowProvider window={externalDocument}>
         <ThemeProvider>
-          <Container />
-          <Container primary />
+          <Container>Hello world!</Container>
+          <Container primary>Hello world!</Container>
         </ThemeProvider>
       </WindowProvider>
     )}
