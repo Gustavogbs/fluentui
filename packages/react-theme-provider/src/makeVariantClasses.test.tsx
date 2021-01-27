@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeVariantClasses } from './makeVariantClasses.compat';
+import { makeVariantClasses } from './makeVariantClasses';
 import { Stylesheet, InjectionMode } from '@fluentui/merge-styles';
 import { ReactWrapper } from 'enzyme';
 import { MergeStylesProvider } from './styleRenderers/mergeStylesRenderer';
