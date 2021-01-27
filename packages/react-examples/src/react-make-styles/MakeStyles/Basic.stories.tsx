@@ -25,7 +25,16 @@ const useBasicStyles = makeStyles<{ primary?: boolean }>([
   ],
 ]);
 
-const useOverrideStyles = makeStyles<{}>([[null, () => ({ color: 'red', borderColor: 'red' })]]);
+const useOverrideStyles = makeStyles<{}>([
+  [
+    null,
+    () => ({
+      background: 'transparent',
+      color: 'red',
+      borderColor: 'red',
+    }),
+  ],
+]);
 
 const Container: React.FC<{ className?: string; primary?: boolean }> = props => {
   const className = ax(useBasicStyles({ primary: props.primary }), props.className);

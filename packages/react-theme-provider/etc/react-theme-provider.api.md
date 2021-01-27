@@ -8,13 +8,15 @@ import { ColorTokenSet } from '@fluentui/theme';
 import { ICustomizerContext } from '@fluentui/utilities';
 import { IFontFace } from '@fluentui/merge-styles';
 import { IKeyframes } from '@fluentui/merge-styles';
-import { MakeStylesDefinition } from '@fluentui/make-styles';
-import { MakeStylesRenderer } from '@fluentui/make-styles';
+import { IRawFontStyle } from '@fluentui/merge-styles';
+import { IRawStyle } from '@fluentui/merge-styles';
+import { IStyle } from '@fluentui/merge-styles';
+import { IStyleFunctionOrObject } from '@fluentui/merge-styles';
 import { PartialTheme } from '@fluentui/theme';
 import * as React from 'react';
 import { Theme } from '@fluentui/theme';
-import { Tokens } from '@fluentui/theme';
 import { TokenSetType } from '@fluentui/theme';
+import { Variants } from '@fluentui/theme';
 
 // @public
 export const applyClasses: <TState extends {}>(state: TState, classMap: Record<string, string>) => void;
@@ -25,11 +27,37 @@ export type FontFace = IFontFace;
 // @public (undocumented)
 export const getStyleFromPropsAndOptions: <TProps extends StyleProps<import("@fluentui/theme").ColorTokenSet>, TOptions extends StyleOptions<TProps>>(props: TProps, options: TOptions, prefix?: string | undefined) => React.CSSProperties;
 
+export { IRawFontStyle }
+
+export { IRawStyle }
+
+export { IStyle }
+
+export { IStyleFunctionOrObject }
+
 // @public (undocumented)
 export type KeyFrames = IKeyframes;
 
-// @public (undocumented)
-export function makeStyles<Selectors>(definitions: MakeStylesDefinition<Selectors, Tokens>[]): (selectors: Selectors) => string;
+// @public
+export const makeClasses: <TState extends {}>(styleOrFunction: Record<string, IStyle> | ((theme: Theme) => Record<string, IStyle>)) => (state: TState, options?: UseStylesOptions | undefined) => void;
+
+// @public
+export function makeStyles<TStyleSet extends {
+    [key: string]: IStyle;
+}>(styleOrFunction: TStyleSet | ((theme: Theme) => TStyleSet)): (options?: UseStylesOptions) => {
+    [key in keyof TStyleSet]: string;
+};
+
+// @public
+export const makeVariantClasses: <TState = {}, TVariants = Record<string, any>>(options: MakeVariantClassesOptions<TVariants>) => (state: TState, options?: import("./makeStyles").UseStylesOptions | undefined) => void;
+
+// @public
+export type MakeVariantClassesOptions<TVariants = Variants> = {
+    name?: string;
+    prefix?: string;
+    styles?: Record<string, IStyle> | ((theme: Theme) => Record<string, IStyle>);
+    variants?: TVariants | ((theme: Theme) => TVariants);
+};
 
 // @public (undocumented)
 export const MergeStylesProvider: ({ children }: {
@@ -97,7 +125,6 @@ export type ThemeProviderState = Omit<ThemeProviderProps, 'theme' | 'ref'> & {
     theme: Theme;
     ref: React.RefObject<HTMLElement>;
     customizerContext: ICustomizerContext;
-    makeStylesRenderer: MakeStylesRenderer;
 };
 
 // @public (undocumented)
@@ -111,6 +138,12 @@ export const useInlineTokens: (draftState: {
 
 // @public (undocumented)
 export const useStyleRenderer: () => StyleRenderer;
+
+// @public
+export type UseStylesOptions = {
+    theme?: Theme;
+    renderer?: StyleRenderer;
+};
 
 // @public
 export const useTheme: () => Theme;
